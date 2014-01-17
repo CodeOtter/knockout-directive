@@ -14,7 +14,6 @@ var helpOverlay = DirectiveBinding({
     'helpOverlay': '<div data-bind="visible: active"></div>'
   },
   init: function(element, value, allBindingsAccessor, viewModel, bindingContext) {
-    viewModel.template = value.template;
     viewModel.active = value.active;
   }
 });
@@ -49,7 +48,6 @@ var helpOverlay = DirectiveBinding(
   function() {},
     /* The initialization of the directive */
     function(element, value, allBindingsAccessor, viewModel, bindingContext) {
-      viewModel.template = value.template;
       viewModel.active = value.active;
     }
 );
@@ -72,7 +70,6 @@ var helpOverlay = DirectiveBinding({
   },
   view: function() {},
   init: function(element, value, allBindingsAccessor, viewModel, bindingContext) {
-    viewModel.template = value.template;
     viewModel.active = value.active;
   }
 });
