@@ -5,14 +5,34 @@ AngularJS directive-like functionality for custom bindings.  (Now with 100% less
 
 You're gonna need RequireJS to make this work.
 
-Example:
+Barebones example:
 
 ```JavaScript
-var helpOverlay = DirectiveBinding('helpOverlay', {
-		
-  'helpOverlay':  // Name of the template
-    /* HTML of the directive */
-    '<div data-bind="visible: active"></div>'
+var helpOverlay = DirectiveBinding({
+  name: 'helpOverlay',
+  templates: {
+    'helpOverlay': '<div data-bind="visible: active"></div>'
+  },
+  init: function(element, value, allBindingsAccessor, viewModel, bindingContext) {
+    viewModel.template = value.template;
+    viewModel.active = value.active;
+  }
+});
+```
+
+Extended example using parameters:
+
+
+```JavaScript
+var helpOverlay = DirectiveBinding(
+  /* Name of the binding */
+  'helpOverlay', 
+  
+  /* Templates */
+  {
+    'helpOverlay':  // Name of the template
+      /* HTML of the directive */
+      '<div data-bind="visible: active"></div>'
   },
 		
   /* Configuration of the directive */
@@ -35,13 +55,13 @@ var helpOverlay = DirectiveBinding('helpOverlay', {
 );
 ```
 
-Or you can use an object to define the directive:
+Same example using a single object parameter:
 
 ```JavaScript
 var helpOverlay = DirectiveBinding({
   name: 'helpOverlay',
   templates: {
-    helpOverlay': '<div data-bind="visible: active"></div>'
+    'helpOverlay': '<div data-bind="visible: active"></div>'
   },
   config: {
     replace: true,
