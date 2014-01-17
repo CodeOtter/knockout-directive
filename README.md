@@ -7,7 +7,7 @@ You're gonna need RequireJS to make this work.
 
 Example:
 
-```
+```JavaScript
 var helpOverlay = DirectiveBinding('helpOverlay', {
 		
   'helpOverlay':  // Name of the template
@@ -37,7 +37,7 @@ var helpOverlay = DirectiveBinding('helpOverlay', {
 
 Or you can use an object to define the directive:
 
-```
+```JavaScript
 var helpOverlay = DirectiveBinding({
   name: 'helpOverlay',
   templates: {
@@ -60,7 +60,7 @@ var helpOverlay = DirectiveBinding({
 
 Then you use it by dropping this in your HTML:
 
-```
+```HTML
    <div data-bind="helpOverlay: { active: true }></div>"
 ```
 
