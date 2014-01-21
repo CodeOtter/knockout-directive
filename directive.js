@@ -240,4 +240,4 @@ function(ko, $, Config) {
     return function(name, templates, config, parentView, init, update) {
         return new Directive(name, templates, config, parentView, init, update);
     };
-});
+});
