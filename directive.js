@@ -87,7 +87,7 @@ function(ko, $, Config) {
         debug('====================================================', config.debug);
         debug('Loading directive: ' + name, config.debug);
         debug(config, config.debug);
-        
+
         // Templates
         self.templates = templates;
         for(var i in self.templates) {
@@ -114,26 +114,26 @@ function(ko, $, Config) {
 
                 debug('Creating view instance...', config.debug);
 
-                var viewInstance = ko.utils.extend(view, value);
-                debug(viewInstance, config.debug);
+                this.viewInstance = ko.utils.extend(value, config.view || parentView || {});
+                debug(this.viewInstance, config.debug);
                 var context = null;
 
                 if(config.merge) {
                     // Merge the bindings of the parent with the children
                     debug('Creating extended context...', config.debug);
-                    context = bindingContext.extend(viewInstance);
+                    context = bindingContext.extend(this.viewInstance);
                 } else {
                     // Create a brand new context for the child
                     debug('Creating child context...', config.debug);
-                    context = bindingContext.createChildContext(viewInstance);
+                    context = bindingContext.createChildContext(this.viewInstance);
                 }
 
                 if(init) {
                     debug('Custom initialization running...', config.debug);
-                    debug([element, viewInstance, context, allBindingsAccessor], config.debug);
+                    debug([element, this.viewInstance, context, allBindingsAccessor], config.debug);
 
                     // Initialize the Directive
-                    init(element, viewInstance, context, allBindingsAccessor);
+                    init(element, this.viewInstance, context, allBindingsAccessor);
                 }
 
                 // Automatically render the directive
@@ -146,7 +146,7 @@ function(ko, $, Config) {
             },
             update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
                 if(update) {
-                    update(element, ko.unwrap(valueAccessor()), allBindings, view, bindingContext);
+                    update(element, ko.unwrap(valueAccessor()), allBindings, this.viewInstance, bindingContext);
                 }
             }
         };
@@ -180,7 +180,6 @@ function(ko, $, Config) {
                     ko.applyBindings(context, targetElement);
                 }
             }
-            
         } else {
             //debug('Applying root-level bindings:');
             //debug([ context, targetElement ]);
