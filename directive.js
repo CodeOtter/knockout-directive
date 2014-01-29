@@ -2,8 +2,8 @@
  * Directive
  * Operates like directives in Angular JS
  */
-define(['core/knockout-2.3.0', 'jquery', 'config'], 
-function(ko, $, Config) {
+define(['knockout-2.3.0', 'jquery'], 
+function(ko, $) {
 
     // Master debug mode flag
     var DEBUG = false;
