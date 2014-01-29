@@ -60,17 +60,6 @@ var helpOverlay = DirectiveBinding({
   name: 'helpOverlay',
   templates: {
     'helpOverlay': '<div data-bind="visible: active"></div>'
-  },
-  config: {
-    replace: true,
-    share: false,
-    render: true,
-    view: false,
-    debug: false
-  },
-  view: function() {},
-  init: function(element, value, allBindingsAccessor, viewModel, bindingContext) {
-    viewModel.active = value.active;
   }
 });
 ```
