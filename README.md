@@ -1,25 +1,33 @@
 knockout-directive
 ==================
 
-AngularJS directive-like functionality for custom bindings.  (Now with 100% less weird text-based flags)  This makes creating reusable UI components pretty easy as it obfuscates most of the template/binding requirements.
+AngularJS directive-like functionality for custom bindings.  (Now with 100% less weird text-based flags)  This makes creating reusable UI components pretty easy as it obfuscating many template/binding issues.
 
-You're gonna need RequireJS to make this work.
+You'll need RequireJS and jQuery to make this work.
 
-Barebones example:
+Super simple example:
 
 ```JavaScript
-var helpOverlay = DirectiveBinding({
+DirectiveBinding({
   name: 'helpOverlay',
   templates: {
     'helpOverlay': '<div data-bind="visible: active"></div>'
-  },
-  init: function(element, value, allBindingsAccessor, viewModel, bindingContext) {
-    viewModel.active = value.active;
   }
 });
 ```
 
-Extended example using parameters:
+Then you use it by dropping this in your HTML:
+
+```HTML
+   <div data-bind="helpOverlay: { active: true }></div>"
+```
+
+And you're done!
+
+Advanced
+========
+
+Directive also allows for parameter-based invocation:
 
 
 ```JavaScript
@@ -36,38 +44,29 @@ var helpOverlay = DirectiveBinding(
 		
   /* Configuration of the directive */
   {
-    replace: true, // True will template will overwrite the original directive DOM element.
-                   // False will append the template to the original directive DOM element,
-    share: false,  // The directive's view model will be bound to all descendants.  False by default.
-    render: true,  // Automatically render the template after it has been initialized.  True by default.
-    view: false,   // Use a custom view model.  If blank, will use the view passed into the binding.
-    debug: false   // Turns on debug messaging for this directive.
+    replace: true, // If true, overwrites the original directive DOM element with the template.
+                   // If false, appends the template to the original directive DOM element.
+    share: true,   // If true, the view model will be bound to all descendants.
+                   // If false, the view model will only be bound to the DOM element.
+    render: true,  // If true, automatically renders the template after it has been initialized.
+    view: null,    // Use a custom view model.  If blank, will use the view passed into the directive argument.
+    debug: false,  // Turns on debug messaging for this directive.
+    bind: true,    // If true, binds the view model to the DOM element.
+    master: false, // If true, allows the directive to control the descendant bindings of all children.
+    merge: false   // If true, merges the value accessor and the view model with the parent binding.  
+                   // If false, creates a new child context with the value accessor and view model as the context.
   },
 		
   /* The view model the directive will use */
-  function() {},
-    /* The initialization of the directive */
-    function(element, value, allBindingsAccessor, viewModel, bindingContext) {
-      viewModel.active = value.active;
-    }
+  {
+     test: function() {
+       console.log(this.active);
+     }
+  },
+  
+  /* The initialization of the directive.  All values passed into the binding will be availible in the viewModel */
+  function(element, value, allBindingsAccessor, viewModel, bindingContext) {
+    viewModel.test();
+  }
 );
 ```
-
-Same example using a single object parameter:
-
-```JavaScript
-var helpOverlay = DirectiveBinding({
-  name: 'helpOverlay',
-  templates: {
-    'helpOverlay': '<div data-bind="visible: active"></div>'
-  }
-});
-```
-
-Then you use it by dropping this in your HTML:
-
-```HTML
-   <div data-bind="helpOverlay: { active: true }></div>"
-```
-
-More examples coming soon!
