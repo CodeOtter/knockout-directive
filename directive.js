@@ -2,8 +2,8 @@
  * Directive
  * Operates like directives in Angular JS
  */
-define(['knockout-2.3.0', 'jquery'], 
-function(ko, $) {
+define(['core/knockout-2.3.0', 'jquery', 'config'], 
+function(ko, $, Config) {
 
     // Master debug mode flag
     var DEBUG = false;
@@ -114,26 +114,27 @@ function(ko, $) {
 
                 debug('Creating view instance...', config.debug);
 
-                this.viewInstance = ko.utils.extend(value, config.view || parentView || {});
-                debug(this.viewInstance, config.debug);
+                var viewInstance = ko.utils.extend(value, config.view || parentView || {});
+                viewModel._instance = viewInstance
+                debug(viewInstance, config.debug);
                 var context = null;
 
                 if(config.merge) {
                     // Merge the bindings of the parent with the children
                     debug('Creating extended context...', config.debug);
-                    context = bindingContext.extend(this.viewInstance);
+                    context = bindingContext.extend(viewInstance);
                 } else {
                     // Create a brand new context for the child
                     debug('Creating child context...', config.debug);
-                    context = bindingContext.createChildContext(this.viewInstance);
+                    context = bindingContext.createChildContext(viewInstance);
                 }
 
                 if(init) {
                     debug('Custom initialization running...', config.debug);
-                    debug([element, this.viewInstance, context, allBindingsAccessor], config.debug);
+                    debug([element, viewInstance, context, allBindingsAccessor], config.debug);
 
                     // Initialize the Directive
-                    init(element, this.viewInstance, context, allBindingsAccessor);
+                    init(element, viewInstance, context, allBindingsAccessor);
                 }
 
                 // Automatically render the directive
@@ -146,7 +147,7 @@ function(ko, $) {
             },
             update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
                 if(update) {
-                    update(element, ko.unwrap(valueAccessor()), allBindings, this.viewInstance, bindingContext);
+                    update(element, ko.unwrap(valueAccessor()), allBindings, viewModel._instance, bindingContext);
                 }
             }
         };
