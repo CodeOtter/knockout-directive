@@ -19,7 +19,7 @@ DirectiveBinding({
 Then you use it by dropping this in your HTML:
 
 ```HTML
-   <div data-bind="helpOverlay: { active: true }></div>"
+   <div data-bind="helpOverlay: { active: true }"></div>
 ```
 
 And you're done!
